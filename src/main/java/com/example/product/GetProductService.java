@@ -25,6 +25,6 @@ public class GetProductService implements Query<Integer, ProductDto> {
             return ResponseEntity.status(HttpStatus.OK).body(
                     product.map(ProductDto::new).get());
         }
-        return null;
+        throw new RuntimeException("Product Id doesn't exist.");
     }
 }
