@@ -16,4 +16,11 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleProductNotFoundException(ProductNotFoundException productNotFoundException) {
         return new ErrorResponse(productNotFoundException.getMessage());
     }
+
+    @ExceptionHandler(ProductBadRequestException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleProductBadRequest(ProductBadRequestException productBadRequestException) {
+        return new ErrorResponse(productBadRequestException.getMessage());
+    }
 }
