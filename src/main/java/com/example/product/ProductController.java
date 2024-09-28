@@ -1,15 +1,27 @@
 package com.example.product.controller;
 
+import com.example.product.model.ProductDto;
+import com.example.product.service.AllProductService;
+import com.example.product.service.CreateProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
+
 @RestController
 public class ProductController {
+    AllProductService allProductService;
+    CreateProductService createProductService;
+
+    ProductController(AllProductService allProductService, CreateProductService createProductService) {
+        this.allProductService = allProductService;
+        this.createProductService = createProductService;
+    }
 
     @PostMapping
-    public ResponseEntity<String> create() {
-        return ResponseEntity.status(HttpStatus.CREATED).body("CREATED");
+    public ResponseEntity<String> create(@RequestBody ProductDto productDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(createProductService.execute(productDto));
     }
 
     @GetMapping
@@ -25,5 +37,10 @@ public class ProductController {
     @PutMapping
     public ResponseEntity<String> update() {
         return ResponseEntity.status(HttpStatus.OK).body("Updated");
+    }
+
+    @GetMapping("all")
+    public ResponseEntity<List<ProductDto>> index() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.allProductService.execute(null));
     }
 }
