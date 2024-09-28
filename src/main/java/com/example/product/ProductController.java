@@ -1,32 +1,27 @@
-package com.example.product.controller;
-
-import com.example.product.model.ProductDto;
-import com.example.product.service.AllProductService;
-import com.example.product.service.CreateProductService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
-
 @RestController
 public class ProductController {
-    AllProductService allProductService;
-    CreateProductService createProductService;
+    private final ALProductService alProductService;
+    private final UpdateProductService updateProductService;
+    private final GetProductService getProductService;
 
-    ProductController(AllProductService allProductService, CreateProductService createProductService) {
-        this.allProductService = allProductService;
+    public ProductController(ALProductService alProductService,
+                             CreateProductService createProductService,
+                             UpdateProductService updateProductService,
+                             GetProductService getProductService) {
+        this.alProductService = alProductService;
         this.createProductService = createProductService;
+        this.updateProductService = updateProductService;
+        this.getProductService = getProductService;
     }
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody ProductDto productDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(createProductService.execute(productDto));
+        return createProductService.execute(productDto);
     }
 
-    @GetMapping
-    public ResponseEntity<String> obtain() {
-        return ResponseEntity.status(HttpStatus.OK).body("The product");
+    @GetMapping("{id}")
+    public ResponseEntity<ProductDto> obtain(@PathVariable Integer id) {
+        return this.getProductService.execute(id);
     }
 
     @DeleteMapping
@@ -34,15 +29,13 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted");
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<ProductDto> update(@PathVariable Integer id, @RequestBody ProductDto productDto) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                this.updateProductService.execute(new UpdateProductDto(id, productDto))
-        );
+    @PutMapping
+    public ResponseEntity<List<ProductDto>> update(@PathVariable Integer id, @RequestBody ProductDto productDto) {
+        return updateProductService.execute(new UpdateProduct(id, productDto));
     }
 
     @GetMapping("all")
     public ResponseEntity<List<ProductDto>> index() {
-        return ResponseEntity.status(HttpStatus.OK).body(this.allProductService.execute(null));
+        return this.alProductService.execute(input null);
     }
 }

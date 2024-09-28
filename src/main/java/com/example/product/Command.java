@@ -1,5 +1,7 @@
 package com.example.product;
 
-public interface Command <I, O>{
-    O execute(I input);
+import org.springframework.http.ResponseEntity;
+
+public interface Command<I, O> {
+    ResponseEntity<O> execute(I input);
 }
