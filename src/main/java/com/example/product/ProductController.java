@@ -9,21 +9,21 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<String> create() {
-        return new ResponseEntity<>("Created", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("CREATED");
     }
 
     @GetMapping
     public ResponseEntity<String> obtain() {
-        return new ResponseEntity<>("The product", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("The product");
     }
 
     @DeleteMapping
     public ResponseEntity<String> delete() {
-        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted");
     }
 
     @PutMapping
     public ResponseEntity<String> update() {
-        return new ResponseEntity<>("Updated", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("Updated");
     }
 }
