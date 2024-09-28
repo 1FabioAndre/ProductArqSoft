@@ -34,9 +34,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted");
     }
 
-    @PutMapping
-    public ResponseEntity<String> update() {
-        return ResponseEntity.status(HttpStatus.OK).body("Updated");
+    @PutMapping("{id}")
+    public ResponseEntity<ProductDto> update(@PathVariable Integer id, @RequestBody ProductDto productDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                this.updateProductService.execute(new UpdateProductDto(id, productDto))
+        );
     }
 
     @GetMapping("all")
